@@ -3,103 +3,129 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Withdrawal Confirmation</title>
+  <title>Mzansi Rise Withdrawal</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f8f9fa;
+      background-color: #f0f2f5;
+      margin: 0;
+      padding: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
     }
 
-    .card {
-      background: #fff;
-      border-radius: 12px;
+    .container {
+      background-color: white;
       padding: 30px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      margin-top: 40px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
       max-width: 400px;
+      width: 100%;
+    }
+
+    .logo {
       text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .logo img {
+      max-width: 120px;
     }
 
     h2 {
-      margin-bottom: 20px;
+      text-align: center;
       color: #333;
     }
 
-    .info {
-      text-align: left;
-      margin-bottom: 20px;
+    label {
+      display: block;
+      margin: 15px 0 5px;
+      color: #444;
     }
 
-    .info p {
-      margin: 8px 0;
-      font-size: 16px;
-    }
-
-    .loader {
-      border: 6px solid #f3f3f3;
-      border-top: 6px solid #007bff;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      animation: spin 1s linear infinite;
-      margin: 20px auto;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    .note {
-      color: #666;
-      font-size: 14px;
-      margin-bottom: 20px;
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
     }
 
     .btn {
-      padding: 10px 20px;
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
       background-color: #007bff;
       color: white;
       border: none;
       border-radius: 6px;
-      text-decoration: none;
       font-weight: bold;
+      cursor: pointer;
       transition: background 0.3s;
     }
 
     .btn:hover {
       background-color: #0056b3;
     }
+
+    .error {
+      color: red;
+      margin-top: 10px;
+      display: none;
+      text-align: center;
+    }
+
+    .contact {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 14px;
+      color: #555;
+    }
   </style>
-  <script>
-    // Auto-redirect after 6 seconds
-    setTimeout(() => {
-      window.location.href = "https://greenbnds.github.io/Thabede/";
-    }, 6000);
-  </script>
 </head>
 <body>
 
-  <div class="card">
-    <h2>Withdrawal Processing</h2>
-    <div class="info">
-      <p><strong>Name:</strong> H Thabede</p>
-      <p><strong>Bank:</strong> Nedbank</p>
-      <p><strong>Account Number:</strong> 1151883840</p>
-      <p><strong>Withdrawal Date:</strong> 01/08/2025</p>
-      <p><strong>Time:</strong> 12:30</p>
+  <div class="container">
+    <div class="logo">
+      <img src="images/mzansi rise logo.png" alt="Mzansi Rise Logo">
     </div>
 
-    <div class="loader"></div>
-    <p class="note">Please wait while we process your withdrawal...</p>
+    <h2>Withdrawal Slot Verification</h2>
 
-    <a class="btn" href="https://greenbnds.github.io/Thabede/">Back to Wallet</a>
+    <form id="withdrawForm">
+      <label for="slotHolder">Slot Holder Name</label>
+      <input type="text" id="slotHolder" placeholder="Enter Slot Holder's Name" required>
+
+      <label for="slotNumber">Slot Number</label>
+      <input type="text" id="slotNumber" placeholder="Enter Slot Number" required>
+
+      <div class="error" id="errorMsg">Invalid details. Please enter correct information.</div>
+
+      <button type="submit" class="btn">Withdraw</button>
+    </form>
+
+    <div class="contact">
+      📞 +27 63 456 7890<br/>
+      ✉️ support@mzansirise.co.za
+    </div>
   </div>
+
+  <script>
+    document.getElementById("withdrawForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const slotHolder = document.getElementById("slotHolder").value.trim();
+      const slotNumber = document.getElementById("slotNumber").value.trim();
+      const errorMsg = document.getElementById("errorMsg");
+
+      if (slotHolder === "Hlengiwe Thabede" && slotNumber === "V360DF5983") {
+        window.location.href = "feedback.html";
+      } else {
+        errorMsg.style.display = "block";
+      }
+    });
+  </script>
 
 </body>
 </html>
