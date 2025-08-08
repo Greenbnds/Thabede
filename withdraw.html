@@ -21,7 +21,7 @@
       margin-top: 40px;
       border-radius: 12px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      max-width: 400px;
+      max-width: 500px;
       width: 100%;
     }
 
@@ -45,11 +45,18 @@
       color: #444;
     }
 
-    input {
+    input, select {
       width: 100%;
       padding: 10px;
       border: 1px solid #ccc;
       border-radius: 6px;
+    }
+
+    .slot-fields {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
     }
 
     .btn {
@@ -97,10 +104,20 @@
       <label for="slotHolder">Slot Holder Name</label>
       <input type="text" id="slotHolder" placeholder="Enter Slot Holder's Name" required>
 
-      <label for="slotNumber">Slot Number</label>
-      <input type="text" id="slotNumber" placeholder="Enter Slot Number" required>
+      <label for="slotCount">Number of Slots</label>
+      <select id="slotCount" required>
+        <option value="">Select slots</option>
+        <option value="1">1 Slot</option>
+        <option value="2">2 Slots</option>
+        <option value="3">3 Slots</option>
+        <option value="4">4 Slots</option>
+        <option value="5">5 Slots</option>
+        <option value="6">6 Slots</option>
+      </select>
 
-      <div class="error" id="errorMsg">Invalid details. Please enter correct information.</div>
+      <div id="slotInputs" class="slot-fields"></div>
+
+      <div class="error" id="errorMsg">Invalid slot number(s). Please enter correct information.</div>
 
       <button type="submit" class="btn">Withdraw</button>
     </form>
@@ -112,14 +129,45 @@
   </div>
 
   <script>
-    document.getElementById("withdrawForm").addEventListener("submit", function(e) {
+    const slotCountSelect = document.getElementById("slotCount");
+    const slotInputsDiv = document.getElementById("slotInputs");
+    const withdrawForm = document.getElementById("withdrawForm");
+    const errorMsg = document.getElementById("errorMsg");
+
+    const validSlots = ["V360DF5983", "ZXC32G56TT", "TTM765H543"];
+
+    // Dynamically generate slot number inputs
+    slotCountSelect.addEventListener("change", function() {
+      slotInputsDiv.innerHTML = ""; // Clear previous inputs
+      const count = parseInt(this.value);
+      if (!isNaN(count)) {
+        for (let i = 1; i <= count; i++) {
+          const input = document.createElement("input");
+          input.type = "text";
+          input.placeholder = `Enter Slot Number ${i}`;
+          input.required = true;
+          input.classList.add("slotNumber");
+          slotInputsDiv.appendChild(input);
+        }
+      }
+    });
+
+    // Form validation
+    withdrawForm.addEventListener("submit", function(e) {
       e.preventDefault();
 
       const slotHolder = document.getElementById("slotHolder").value.trim();
-      const slotNumber = document.getElementById("slotNumber").value.trim();
-      const errorMsg = document.getElementById("errorMsg");
+      const slotNumbers = document.querySelectorAll(".slotNumber");
 
-      if (slotHolder === "Hlengiwe Thabede" && slotNumber === "V360DF5983") {
+      let allValid = true;
+
+      slotNumbers.forEach(input => {
+        if (!validSlots.includes(input.value.trim())) {
+          allValid = false;
+        }
+      });
+
+      if (allValid) {
         window.location.href = "feedback.html";
       } else {
         errorMsg.style.display = "block";
